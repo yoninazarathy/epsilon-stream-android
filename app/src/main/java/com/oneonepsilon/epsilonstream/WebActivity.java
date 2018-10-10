@@ -43,6 +43,7 @@ public class WebActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
 
+
         myConnectivityManager = (ConnectivityManager)
                 this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -62,11 +63,14 @@ public class WebActivity extends AppCompatActivity {
         myWebView.addJavascriptInterface(myWebAppInterface, "Android");
         myWebView.setWebViewClient(new WebViewClient());
 
-        if (!isConnected()) {
-            myWebView.loadUrl("file:///android_asset/NoConnection.html");
-            Toast.makeText(getApplicationContext(), "No Internet => no mAth!", Toast.LENGTH_LONG).show();
-        } else {
-            myWebView.loadUrl(mofoURL);
+
+        if (savedInstanceState == null) {
+            if (!isConnected()) {
+                myWebView.loadUrl("file:///android_asset/NoConnection.html");
+                Toast.makeText(getApplicationContext(), "No Internet => no mAth!", Toast.LENGTH_LONG).show();
+            } else {
+                myWebView.loadUrl(mofoURL);
+            }
         }
     }
 
@@ -80,6 +84,20 @@ public class WebActivity extends AppCompatActivity {
         // If it wasn't the Back key or there's no web page history, bubble up to the default
         // system behavior (probably exit the activity)
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState )
+    {
+        super.onSaveInstanceState(outState);
+        myWebView.saveState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+        myWebView.restoreState(savedInstanceState);
     }
 }
 
