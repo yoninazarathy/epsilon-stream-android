@@ -15,14 +15,11 @@ public class WebAppInterface {
     Context mContext;
 
     WebView myWebView;
-
-    private String mofoURL;
-
+    
     /** Instantiate the interface and set the context */
     WebAppInterface(Context c, WebView wb, String mU) {
         mContext = c;
         myWebView = wb;
-        mofoURL = mU;
     }
 
     /** Show a toast from the web page */
@@ -33,9 +30,6 @@ public class WebAppInterface {
 
     @JavascriptInterface
     public void retryConnection() {
-        Log.v("MOFO", "We're over here, fuckers");
-        // This doesn't work
-        //myWebView.loadUrl(mofoURL);
         Toast.makeText(mContext, "Retrying connection", Toast.LENGTH_LONG).show();
     }
 }
